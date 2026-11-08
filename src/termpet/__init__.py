@@ -3,5 +3,7 @@
 from .pet import Pet
 from .feed import feed
 from .sleep import sleep
+from .storage import save, load
+from .status import status
 
 __all__ = ["Pet"]
