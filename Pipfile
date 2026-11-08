@@ -5,6 +5,7 @@ verify_ssl = true
 
 [packages]
 termpet = {editable = true, path = "."}
+pytest = "*"
 
 [dev-packages]
 pytest = "*"
