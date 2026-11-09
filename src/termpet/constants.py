@@ -4,6 +4,14 @@ STAT_MIN = 0
 STAT_MAX = 100
 DEFAULT_STAT = 50
 
+MOODS = ("ecstatic", "content", "grumpy", "feral")
+
+MOOD_THRESHOLDS = {
+    "ecstatic": 75,
+    "content": 50,
+    "grumpy": 25,
+}
+
 FOODS = {
     "apple":   {"hunger": 10, "energy": 5,   "happiness": 2},
     "kibble":  {"hunger": 20, "energy": 0,   "happiness": 1},
