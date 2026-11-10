@@ -12,6 +12,15 @@ FOODS = {
     "veggies": {"hunger": 15, "energy": 0,   "happiness": 0},
 }
 
+GAMES = {
+    "fetch": {"hunger": -1, "energy": -1, "happiness": 2},
+    "hide & seek": {"hunger": -0.5, "energy": -0.5, "happiness": 1.5},
+    "tug of war": {"hunger": -1.5, "energy": -1.5, "happiness": 2.5},
+    "chase": {"hunger": -2, "energy": -2, "happiness": 3},
+}
+
 ENERGY_PER_SLEEP_HOUR = 10   
 HUNGER_PER_SLEEP_HOUR = 2    
 MAX_SLEEP_HOURS = 24
+
+MAX_PLAY_MINUTES = 60
