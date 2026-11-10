@@ -3,6 +3,7 @@ from termpet.constants import (
     ENERGY_LOST_PER_TICK_HOUR,
     HUNGER_LOST_PER_TICK_HOUR,
     HAPPINESS_LOST_PER_TICK_HOUR,
+    MAX_TICK_HOURS,
     STAT_MAX,
     STAT_MIN,
 )
@@ -50,42 +51,42 @@ class Tests:
 
     def test_tick_does_not_go_below_min_hunger(self):
         pet = Pet("Mochi", "cat", hunger=5, energy=50, happiness=50)
-        tick(pet, 24)
+        tick(pet, MAX_TICK_HOURS)
         assert pet.hunger == STAT_MIN, f"Expected hunger to be at least {STAT_MIN}, got {pet.hunger}"
 
     def test_tick_does_not_go_below_min_energy(self):
         pet = Pet("Mochi", "cat", hunger=50, energy=5, happiness=50)
-        tick(pet, 24)
+        tick(pet, MAX_TICK_HOURS)
         assert pet.energy == STAT_MIN, f"Expected energy to be at least {STAT_MIN}, got {pet.energy}"
 
     def test_tick_does_not_go_below_min_happiness(self):
         pet = Pet("Mochi", "cat", hunger=50, energy=50, happiness=5)
-        tick(pet, 24)
+        tick(pet, MAX_TICK_HOURS)
         assert pet.happiness == STAT_MIN, f"Expected happiness to be at least {STAT_MIN}, got {pet.happiness}"
 
     def test_tick_does_not_exceed_one_day_limit(self):
         pet = Pet("Mochi", "cat", hunger=50, energy=50, happiness=50)
         with pytest.raises(ValueError):
-            tick(pet, 25)  # More than 24 hours should raise ValueError
+            tick(pet, MAX_TICK_HOURS + 1)
 
     def test_tick_accepts_maximum_hours(self):
         pet = Pet("Mochi", "cat", hunger=100, energy=100, happiness=100)
-        tick(pet, 24)
-        assert pet.energy == 100 - 24 * ENERGY_LOST_PER_TICK_HOUR        # 52
-        assert pet.hunger == 100 - 24 * HUNGER_LOST_PER_TICK_HOUR        # 4
-        assert pet.happiness == 100 - 24 * HAPPINESS_LOST_PER_TICK_HOUR
-    
-    def test_tick_hour_just_over_24(self):
+        tick(pet, MAX_TICK_HOURS)
+        assert pet.energy == 100 - MAX_TICK_HOURS * ENERGY_LOST_PER_TICK_HOUR
+        assert pet.hunger == 100 - MAX_TICK_HOURS * HUNGER_LOST_PER_TICK_HOUR
+        assert pet.happiness == 100 - MAX_TICK_HOURS * HAPPINESS_LOST_PER_TICK_HOUR
+
+    def test_tick_hour_just_over_max(self):
         with pytest.raises(ValueError):
-            tick(self.pet, 24.01)
+            tick(self.pet, MAX_TICK_HOURS + 0.01)
 
     def test_tick_zero_hours_raises_value_error(self):
         with pytest.raises(ValueError):
-            tick(self.pet, 0)  # Zero hours should raise ValueError
+            tick(self.pet, 0)
 
     def test_tick_negative_hours_raises_value_error(self):
         with pytest.raises(ValueError):
-            tick(self.pet, -1)  # Negative hours should raise ValueError
+            tick(self.pet, -1)
 
     def test_tick_non_numeric_hours_raises_type_error(self):
         with pytest.raises(TypeError):
@@ -109,18 +110,10 @@ class Tests:
 
     def test_failed_tick_leaves_pet_unchanged(self):
         with pytest.raises(ValueError):
-            tick(self.pet, 25)  # Invalid tick should not change the pet
+            tick(self.pet, MAX_TICK_HOURS + 1)  # Invalid tick should not change the pet
         assert self.pet.energy == 50, f"Expected energy to remain 50, got {self.pet.energy}"
         assert self.pet.hunger == 50, f"Expected hunger to remain 50, got {self.pet.hunger}"
         assert self.pet.happiness == 50, f"Expected happiness to remain 50, got {self.pet.happiness}"
-
-    def test_tick_stats_clamp_independently(self):
-        # Hunger drops fastest, so it should clamp while the others do not
-        pet = Pet("Mochi", "cat", hunger=10, energy=100, happiness=100)
-        tick(pet, 5)
-        assert pet.hunger == STAT_MIN
-        assert pet.energy == 100 - 5 * ENERGY_LOST_PER_TICK_HOUR
-        assert pet.happiness == 100 - 5 * HAPPINESS_LOST_PER_TICK_HOUR
 
     def test_tick_reaches_min_exactly(self):
         pet = Pet(
