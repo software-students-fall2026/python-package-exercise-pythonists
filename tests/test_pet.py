@@ -2,7 +2,7 @@
 
 import pytest
 
-from termpet import Pet
+from termpet import Pet, mood
 
 
 def test_pet_starts_with_the_supplied_identity_and_default_stats(pet):
@@ -65,3 +65,33 @@ def test_pet_rejects_stats_outside_the_valid_range(field, value):
 def test_pet_requires_numeric_stats(field, value):
     with pytest.raises(TypeError, match=field):
         Pet("Mochi", "cat", **{field: value})
+
+
+def test_mood_at_stat_boundaries():
+    assert mood(Pet("Mochi", "cat", 0, 0, 0)) == "feral"
+    assert mood(Pet("Mochi", "cat", 24.9, 24.9, 24.9)) == "feral"
+    assert mood(Pet("Mochi", "cat", 25, 25, 25)) == "grumpy"
+    assert mood(Pet("Mochi", "cat", 49.9, 49.9, 49.9)) == "grumpy"
+    assert mood(Pet("Mochi", "cat", 50, 50, 50)) == "content"
+    assert mood(Pet("Mochi", "cat", 74.9, 74.9, 74.9)) == "content"
+    assert mood(Pet("Mochi", "cat", 75, 75, 75)) == "ecstatic"
+    assert mood(Pet("Mochi", "cat", 100, 100, 100)) == "ecstatic"
+
+
+def test_mood_uses_the_average_of_all_three_stats():
+    assert mood(Pet("Mochi", "cat", 100, 25, 25)) == "content"
+    assert mood(Pet("Mochi", "cat", 25, 100, 25)) == "content"
+    assert mood(Pet("Mochi", "cat", 25, 25, 100)) == "content"
+
+
+def test_mood_leaves_the_pet_unchanged():
+    pet = Pet("Mochi", "cat", 25, 50, 75)
+    assert mood(pet) == "content"
+    assert (pet.name, pet.species) == ("Mochi", "cat")
+    assert (pet.hunger, pet.energy, pet.happiness) == (25, 50, 75)
+
+
+def test_mood_rejects_inputs_that_are_not_pets():
+    for value in [None, {}, "cat", 50]:
+        with pytest.raises(TypeError, match="pet must be a Pet"):
+            mood(value)
