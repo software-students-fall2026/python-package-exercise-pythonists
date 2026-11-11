@@ -25,8 +25,6 @@ def main():
         try:
             if action == "quit":
                 break
-            elif action in ("feed", "sleep", "play", "wait") and not pet.alive:
-                print("Your pet is gone. Load a save to keep playing.")
             elif action == "feed":
                 feed(pet, input("Food: "))
             elif action == "sleep":
