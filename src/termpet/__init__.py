@@ -8,4 +8,14 @@ from .status import status
 from .play import play
 from .tick import tick
 
-__all__ = ["Pet", "mood"]
+__all__ = [
+    "Pet",
+    "mood",
+    "feed",
+    "sleep",
+    "save",
+    "load",
+    "status",
+    "play",
+    "tick",
+]
