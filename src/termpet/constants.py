@@ -4,6 +4,14 @@ STAT_MIN = 0
 STAT_MAX = 100
 DEFAULT_STAT = 50
 
+MOODS = ("ecstatic", "content", "grumpy", "feral")
+
+MOOD_THRESHOLDS = {
+    "ecstatic": 75,
+    "content": 50,
+    "grumpy": 25,
+}
+
 FOODS = {
     "apple":   {"hunger": 10, "energy": 5,   "happiness": 2},
     "kibble":  {"hunger": 20, "energy": 0,   "happiness": 1},
@@ -24,3 +32,13 @@ HUNGER_PER_SLEEP_HOUR = 2
 MAX_SLEEP_HOURS = 24
 
 MAX_PLAY_MINUTES = 60
+ENERGY_PER_SLEEP_HOUR = 10
+ENERGY_LOST_PER_TICK_HOUR = 2
+
+HUNGER_PER_SLEEP_HOUR = 2
+HUNGER_LOST_PER_TICK_HOUR = 4
+
+HAPPINESS_LOST_PER_TICK_HOUR = 3
+
+MAX_SLEEP_HOURS = 24
+MAX_TICK_HOURS = 24

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from .constants import DEFAULT_STAT, STAT_MAX, STAT_MIN
+from .constants import DEFAULT_STAT, MOOD_THRESHOLDS, STAT_MAX, STAT_MIN
 
 
 @dataclass
@@ -36,3 +36,18 @@ class Pet:
                 raise ValueError(
                     f"{field} must be between {STAT_MIN} and {STAT_MAX}"
                 )
+
+
+def mood(pet):
+    if not isinstance(pet, Pet):
+        raise TypeError("pet must be a Pet")
+
+    average = (pet.hunger + pet.energy + pet.happiness) / 3
+
+    if average >= MOOD_THRESHOLDS["ecstatic"]:
+        return "ecstatic"
+    if average >= MOOD_THRESHOLDS["content"]:
+        return "content"
+    if average >= MOOD_THRESHOLDS["grumpy"]:
+        return "grumpy"
+    return "feral"
