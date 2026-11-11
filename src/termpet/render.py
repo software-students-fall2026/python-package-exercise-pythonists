@@ -1,5 +1,5 @@
 from .constants import STAT_MAX
-from .pet import Pet
+from .pet import Pet, mood
 
 DEFAULT_RENDER_WIDTH = 10
 
@@ -8,7 +8,6 @@ FACES = {
     "content": "o.o",
     "grumpy": "-.-",
     "feral": ">.<",
-    "gone": "x.x",
 }
 
 def stat_bar(value, width):
@@ -24,8 +23,7 @@ def render(pet, width=DEFAULT_RENDER_WIDTH):
     if width < 1:
         raise ValueError("width must be a positive value")
 
-    # change this to feeling = mood(pet) once this has been implemented
-    feeling = "content"
+    feeling = mood(pet)
     face = FACES[feeling]
 
     return "\n".join([

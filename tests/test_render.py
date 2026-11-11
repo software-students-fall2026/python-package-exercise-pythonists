@@ -25,3 +25,22 @@ def test_render_invalid_width(pet):
 def test_render_invalid_pet():
     with pytest.raises(TypeError):
         render("Mochi")
+
+@pytest.mark.parametrize(
+    "value, feeling, face",
+    [
+        (75, "ecstatic", "^.^"),
+        (50, "content", "o.o"),
+        (25, "grumpy", "-.-"),
+        (0, "feral", ">.<"),
+    ],
+)
+def test_render_uses_the_pet_mood(pet, value, feeling, face):
+    pet.hunger = value
+    pet.energy = value
+    pet.happiness = value
+
+    picture = render(pet)
+
+    assert f"( {face} )" in picture
+    assert f"— {feeling}" in picture
