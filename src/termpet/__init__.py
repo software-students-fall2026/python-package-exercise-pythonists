@@ -19,4 +19,5 @@ __all__ = [
     "status",
     "play",
     "tick",
+    "render",
 ]

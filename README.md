@@ -4,12 +4,18 @@
 
 A small virtual pet that lives in your terminal. Adopt a pet, feed it, play with it, let time pass, put it to sleep, and save it to a file so it's still there next time. Its mood changes with how well you look after it, and you can draw it as ASCII art.
 
-**PyPI:** https://pypi.org/project/termpet/
+**PyPI:** [termpet-pythonists](https://pypi.org/project/termpet-pythonists/)
 
 ## Installation
 
 ```bash
-pip install termpet
+pip install termpet-pythonists
+```
+
+The package installs as `termpet-pythonists` but you import it as `termpet`:
+
+```python
+import termpet
 ```
 
 Requires Python 3.12 or newer.
@@ -99,17 +105,21 @@ Raises:
 
 Plays a game with the pet for `minutes` minutes and returns it. Each game changes the pet's stats by a set amount per minute, so longer play has a bigger effect. Game names ignore case and surrounding spaces.
 
-<!-- TODO: fill from GAMES and MAX_PLAY_MINUTES in constants.py -->
-
 | Game | Hunger / min | Energy / min | Happiness / min |
 |---|---|---|---|
-| `GAME` | 0 | 0 | 0 |
+| `fetch` | −1 | −1 | +2 |
+| `hide & seek` | −0.5 | −0.5 | +1.5 |
+| `tug of war` | −1.5 | −1.5 | +2.5 |
+| `chase` | −2 | −2 | +3 |
 
-`minutes` can be a whole or decimal number, greater than 0 and at most MAX_PLAY_MINUTES.
+`minutes` can be a whole or decimal number, greater than 0 and at most MAX_PLAY_MINUTES (60), defaulting at 10 minutes.
 
 ```python
-play(pet, "GAME")        # 10 minutes
-play(pet, "GAME", 30)
+pet = Pet(name="Mochi", species="cat")   # all stats start at 50
+play(pet, "fetch")  # 10 minutes default
+print(pet.hunger, pet.energy, pet.happiness) # 40 40 70
+
+play(pet, "  Hide & Seek ", 5)           # same as "hide & seek"
 ```
 
 Raises:
@@ -206,13 +216,19 @@ Raises:
 
 ## Example program
 
-[`examples/play_demo.py`](examples/play_demo.py) uses every function in the package.
+[`examples/play_demo.py`](examples/play_demo.py) is an interactive demo and uses every function in the package.
+
+With a fresh clone, after running `pipenv install --dev`:
+```bash
+pipenv run python examples/play_demo.py
+```
+
+
+If you installed the package from PyPI download the file and run:
 
 ```bash
 python examples/play_demo.py
 ```
-
-<!-- TODO: confirm filename and run command with demo owner -->
 
 ## Contributing
 
@@ -257,8 +273,8 @@ termpet needs no environment variables, secret files, or database.
 
 ## Team
 
-- [Hoang](https://github.com/ogngnaoh)
+- [Hoang Ngo](https://github.com/ogngnaoh)
 - [Jolie Leong](https://github.com/jl15113)
-- [Layan](https://github.com/layan-al)
+- [Layan Alyas](https://github.com/layan-al)
 - [Ray Yang](https://github.com/rayyang262)
-- [Ryan](https://github.com/ryanwlin)
+- [Ryan Lin](https://github.com/ryanwlin)

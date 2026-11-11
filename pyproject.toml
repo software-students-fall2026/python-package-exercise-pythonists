@@ -4,15 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "termpet-pythonists"
-version = "0.1.0"
+version = "0.1.1"
 description = "A playful terminal-pet Python package."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [
   { name = "Ray Yang" },
   { name = "Ryan Lin" },
   { name = "Jolie Leong" },
   { name = "Layan Alyas" },
+  {name = "Hoang Ngo" }
 ]
 license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
