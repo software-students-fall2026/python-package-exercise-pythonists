@@ -7,5 +7,6 @@ from .storage import save, load
 from .status import status
 from .play import play
 from .tick import tick
+from .render import render
 
-__all__ = ["Pet", "mood"]
+__all__ = ["Pet", "mood", "render"]
